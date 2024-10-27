@@ -1,0 +1,139 @@
+﻿@model CuaHangTapHoas.ViewModels.ThemPNHViewModel
+
+@{
+    ViewBag.Title = "Thêm Phiếu Nhập Hàng";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="card shadow-sm mt-2 mx-3">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-plus text-success"></i> Thêm phiếu nhập </h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm mx-3">
+        <div class="card-body">
+            <h4 class="text-center text-success">THÔNG TIN PHIẾU NHẬP</h4>
+
+            @using (Html.BeginForm("Create", "PhieuNhapHang", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div>
+                    <label for="maNhaCungCap">Nhà cung cấp</label>
+                    @Html.DropDownListFor(model => model.maNhaCungCap, new SelectList(ViewBag.NhaCungCapList, "maNhaCungCap", "tenNhaCungCap"), "Chọn nhà cung cấp", new { @class = "form-control" })
+                </div>
+
+                <div>
+                    <label for="maTaiKhoan">Tài khoản</label>
+                    @Html.DropDownListFor(model => model.maTaiKhoan, new SelectList(ViewBag.TaiKhoanList, "maTaiKhoan", "tenDangNhap"), "Chọn tài khoản", new { @class = "form-control" })
+                </div>
+
+                <h3>Chi tiết sản phẩm</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá nhập</th>
+                            <th>Thành tiền</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="chiTietPhieuNhapBody">
+                        @for (int i = 0; i <= Model.ChiTietPhieuNhaps?.Count(); i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DropDownListFor(model => model.ChiTietPhieuNhaps[i].maSanPham, new SelectList(ViewBag.SanPhamList, "maSanPham", "tenSanPham"), "Chọn sản phẩm", new { @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.ChiTietPhieuNhaps[i].soLuong, new { @class = "form-control", @onchange = "tinhThanhTien(this)" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.ChiTietPhieuNhaps[i].giaNhap, new { @class = "form-control", @onchange = "tinhThanhTien(this)" })
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" id="thanhTien_@i" readonly />
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="xoaDong(this)">Xóa</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <button type="button" class="btn btn-primary" onclick="themSanPham()">Thêm sản phẩm</button>
+
+                <div>
+                    <label for="tongTien">Tổng tiền</label>
+                    @Html.TextBoxFor(model => model.tongTien, new { @class = "form-control", @readonly = "readonly", @id = "tongTien" })
+                </div>
+
+                <div class="d-flex align-items-center gap-3 mt-3 ">
+                    <div>
+                        @Html.ActionLink("Trở về", "ContentPNH", "", new { @class = "btn btn-primary" })
+                    </div>
+                    <input type="submit" value="Thực hiện thêm" class="btn btn-success" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+            <script>
+    function tinhThanhTien(input) {
+        var row = input.closest('tr');
+        var soLuong = parseFloat(row.querySelector('[name$=".soLuong"]').value) || 0;
+        var giaNhap = parseFloat(row.querySelector('[name$=".giaNhap"]').value) || 0;
+        var thanhTien = soLuong * giaNhap;
+        row.querySelector('[id^="thanhTien_"]').value = thanhTien.toFixed(2);
+
+        tinhTongTien();
+    }
+
+    function tinhTongTien() {
+        var rows = document.querySelectorAll('#chiTietPhieuNhapBody tr');
+        var tongTien = 0;
+        rows.forEach(function(row) {
+            var thanhTien = parseFloat(row.querySelector('[id^="thanhTien_"]').value) || 0;
+            tongTien += thanhTien;
+        });
+        document.getElementById('tongTien').value = tongTien.toFixed(2);
+    }
+
+    function xoaDong(button) {
+        button.closest('tr').remove();
+        tinhTongTien();
+    }
+
+    function themSanPham() {
+        var chiTietPhieuNhapBody = document.getElementById('chiTietPhieuNhapBody');
+        var rowCount = chiTietPhieuNhapBody.rows.length;
+        var newRow = `
+            <tr>
+                <td>
+                    <select name="ChiTietPhieuNhaps[${rowCount}].maSanPham" class="form-control">
+                        @foreach (var sanPham in ViewBag.SanPhamList)
+                        {
+                            <option value="@sanPham.maSanPham">@sanPham.tenSanPham</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <input type="text" name="ChiTietPhieuNhaps[${rowCount}].soLuong" class="form-control" onchange="tinhThanhTien(this)" />
+                </td>
+                <td>
+                    <input type="text" name="ChiTietPhieuNhaps[${rowCount}].giaNhap" class="form-control" onchange="tinhThanhTien(this)" />
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="thanhTien_${rowCount}" readonly />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger" onclick="xoaDong(this)">Xóa</button>
+                </td>
+            </tr>
+        `;
+        chiTietPhieuNhapBody.insertAdjacentHTML('beforeend', newRow);
+    }
+            </script>

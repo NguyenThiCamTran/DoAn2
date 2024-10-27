@@ -1,0 +1,166 @@
+﻿@model List<CuaHangTapHoas.ViewModels.ThemNVViewModel>
+@{
+    ViewBag.Title = "ContentNV";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<main aria-labelledby="title" class="mx-3">
+    <div class="card shadow-sm mt-2">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-clipboard-user text-success"></i> Nhân Viên</h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-4">
+                @*<a class="btn btn-primary" href="/Admin/Taikhoan/ThemTK" role="button"><i class="fa-solid fa-plus"></i> Thêm tài khoản</a>*@
+                <a href="@Url.Action("ThemNV", "NhanVien")" class="btn btn-primary" role="button"><i class="fa-solid fa-plus"></i>Thêm Nhân Viên</a>
+                <div class="d-flex gap-3 justify-content-end">
+                    <!-- Search form -->
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searchString" value="@ViewBag.SearchString">
+                        <button class="btn btn-outline-success" type="submit">Tìm</button>
+                    </form>
+
+                    <!-- Export to Excel button -->
+                    <a href="@Url.Action("ExportToExcel", "NhanVien")" class="btn btn-success"><i class="fa-solid fa-download"></i> Xuất File Excel</a>
+                </div>
+            </div>
+            <table class="table caption-top mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Tên Nhân viên</th>
+                        <th scope="col">Số điện thoại</th>
+                        @*<th scope="col">Địa chỉ</th>*@
+                        <th scope="col">Email</th>
+                        <th scope="col">Chức vụ</th>
+                        @*<th scope="col">Lương</th>*@
+                        <th scope="col">Loại tài khoản</th>
+                        <th scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.maNhanVien</th>
+                            <td>@item.tenNhanVien</td>
+                            <td>@item.soDienThoai</td>
+                            @*<td>@item.diaChi</td>*@
+                            <td>@item.email</td>
+                            <td>@item.chucVu</td>
+                            @*<td>@item.luong</td>*@
+                            <td>@item.loaiTaiKhoan</td>
+                            @*<td>
+                                    @(item.luong != 0 ? item.luong.Value.ToString("C") : "Chưa xác định")
+                                </td>*@
+
+
+
+                            <td>
+                                <a href="@Url.Action("EditNV", "NhanVien", new { id = item.maNhanVien })" class="btn btn-warning text-white">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                @*<a class="" href="/NhanVien/EditNV/@item.maNhanVien" role="button"><i class="fa-solid fa-pen-to-square"></i></a>*@
+                                @*<a class="btn btn-danger" href="/NhanVien/DeleteNV/@item.maSanPham" role="button"><i class="fa-solid fa-trash-can"></i></a>*@
+                                @*<a class="btn btn-primary" href="/DetailsNV/@item.maNhanVien" role="button"></a>*@
+                                <a href="@Url.Action("DeleteNV", "NhanVien", new { id = item.maNhanVien })" class="btn btn-danger text-white">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+
+                                @*<a href="javascript:void(0)" class="btn btn-danger text-white"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#deleteModal"
+                                   data-name="@item.tenNhanVien"
+                                   data-url="@Url.Action("DeleteNV", "NhanVien", new { id = item.maNhanVien })">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>*@
+
+                                <a href="@Url.Action("DetailsNV", "NhanVien", new { id = item.maNhanVien })" class="btn btn-primary text-white">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("ContentNV", new { page = ViewBag.PageNumber - 1, searchString = ViewBag.SearchString })">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("ContentNV", new { page = i, searchString = ViewBag.SearchString })">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("ContentNV", new { page = ViewBag.PageNumber + 1, searchString = ViewBag.SearchString })">Next</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Modal -->
+            <!--<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa nhân viên <strong id="employeeName"></strong> không?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="button" class="btn btn-danger" id="confirmDelete">Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+        </div>
+    </div>
+
+</main>
+
+
+@*<script>
+    // Handle the delete button click event
+    let deleteUrl = '';
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var employeeName = button.data('name'); // Extract info from data-* attributes
+        deleteUrl = button.data('url'); // Get the URL for delete action
+
+        var modal = $(this);
+        modal.find('#employeeName').text(employeeName); // Set the name in the modal
+    });
+
+    // Handle the confirm delete button click
+    $('#confirmDelete').click(function () {
+        $.ajax({
+            type: 'POST',
+            url: deleteUrl,
+            data: {
+                __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val() // Gửi token
+            },
+            success: function (response) {
+                if (response.success) {
+                    // Cập nhật lại danh sách nhân viên trên trang
+                    location.reload(); // Hoặc bạn có thể cập nhật danh sách mà không cần tải lại trang
+                } else {
+                    alert('Có lỗi xảy ra: ' + response.message); // Hiển thị thông báo lỗi
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('Có lỗi xảy ra: ' + xhr.responseText); // Hiển thị thông báo lỗi từ server
+            }
+        });
+    });
+
+
+</script>*@

@@ -1,0 +1,85 @@
+﻿@model CuaHangTapHoas.ViewModels.ThemTKViewModel
+
+@{
+    ViewBag.Title = "DeleteTK";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+<div>
+    <div class="card shadow-sm mt-2 mx-3">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-trash-can text-success"></i> Xóa tài khoản</h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm mx-3">
+        <div class="card-body">
+            <h3>Bạn có chắc chắn muốn xóa tài khoản này không?</h3>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.tenDangNhap)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.tenDangNhap)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.matKhau)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.matKhau)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.email)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.soDienThoai)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.soDienThoai)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ngayTao)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ngayTao)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.loaiTaiKhoan)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.loaiTaiKhoan)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="d-flex align-items-center mt-3 gap-3">
+                    <div>
+                        @Html.ActionLink("Trở về", "ContentTK", "", new { @class = "btn btn-primary" })
+                    </div>
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Xóa tài khoản" class="btn btn-danger" /> <br />
+
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

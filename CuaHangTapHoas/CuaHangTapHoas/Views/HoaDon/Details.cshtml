@@ -1,0 +1,58 @@
+﻿@model CuaHangTapHoas.ViewModels.HoaDonViewModel
+
+@{
+    ViewBag.Title = "Chi Tiết Hóa Đơn";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+
+
+    <div class="form-horizontal">
+        <div class="card shadow-sm mt-2 mx-3">
+            <div class="card-body">
+                <h4 class="KH"><i class="fa-solid fa-circle-info text-success"></i> Chi tiết hóa đơn</h4>
+            </div>
+        </div>
+        <div class="card mt-4 shadow-sm mx-3">
+            <div class="card-body">
+                <h4 class="text-center text-primary">THÔNG TIN CHI TIẾT HÓA ĐƠN</h4>
+                <div>
+                    <strong>Mã Hóa Đơn:</strong> @Model.maHoaDon <br />
+                    <strong>Ngày Lập:</strong> @Model.NgayLap.ToString("dd/MM/yyyy") <br />
+                    <strong>Tên Đăng Nhập:</strong> @Model.tenDangNhap <br />
+                    <strong>Tổng Tiền:</strong> @Model.TongTien <br />
+                    <strong>Trạng Thái:</strong> @Model.TrangThai <br />
+                </div>
+                <hr />
+                <h4 class="text-success">Sản Phẩm</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Đơn Giá</th>
+                            <th>Thành Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var product in Model.Products)
+                        {
+                            <tr>
+                                <td>@product.TenSanPham</td>
+                                <td>@product.SoLuong</td>
+                                <td>@product.GiaBan</td>
+                                <td>@(product.GiaBan * product.SoLuong)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="d-flex align-items-center gap-3 mt-3">
+                    <a href="@Url.Action("ContentHD", "HoaDon")" class="btn btn-primary">Trở lại</a>
+                    @Html.ActionLink("Sửa hóa đơn", "Edit", "HoaDon", new { id = Model.maHoaDon }, new { @class = "btn btn-warning text-white" })
+                </div>
+            </div>
+
+            </div>
+    </div>
+

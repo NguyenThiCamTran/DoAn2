@@ -1,0 +1,77 @@
+﻿@model CuaHangTapHoas.ViewModels.NhaCungCapViewModel
+
+@{
+    ViewBag.Title = "SuaNCC";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.maNhaCungCap)
+    <div class="form-horizontal">
+        <div class="card shadow-sm mt-2 mx-3">
+            <div class="card-body">
+                <h4 class="KH"><i class="fa-solid fa-pen-to-square text-success"></i> Sửa nhà cung cấp</h4>
+            </div>
+        </div>
+        <div class="card mt-4 shadow-sm mx-3">
+            <div class="card-body">
+                <h4 class="text-center text-primary">THÔNG TIN NHÀ CUNG CẤP</h4>
+                @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.maNhaCungCap, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.maNhaCungCap, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.maNhaCungCap, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.tenNhaCungCap, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.tenNhaCungCap, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.tenNhaCungCap, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.soDienThoai, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.soDienThoai, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.soDienThoai, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.diaChi, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.diaChi, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.diaChi, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Save" class="btn btn-default" />
+                        </div>
+                    </div>*@
+            <div class="d-flex align-items-center gap-3 mt-3 ms-3">
+                <div>
+                    @Html.ActionLink("Trở về", "ContentNCC", "", new { @class = "btn btn-primary" })
+                </div>
+                <input type="submit" value="Thực hiện sửa" class="btn btn-warning text-white" />
+            </div>
+            </div>
+        </div>
+    </div>
+}
+

@@ -1,0 +1,117 @@
+﻿@model List<CuaHangTapHoas.ViewModels.ThemSPViewModel>
+@{
+    ViewBag.Title = "ContentSP";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<main aria-labelledby="title" class="mx-3">
+    <div class="card shadow-sm mt-2">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-boxes-stacked text-success"></i> Sản phẩm</h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-4">
+                <a class="btn btn-primary" href="/SanPham/ThemSP" role="button"><i class="fa-solid fa-plus"></i> Thêm sản phẩm</a>
+                <div class="d-flex gap-3 justify-content-end">
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searchString" value="@ViewBag.SearchString">
+                        <button class="btn btn-outline-success" type="submit">Tìm</button>
+                    </form>
+                    <a href="@Url.Action("ExportToExcel", "SanPham")" class="btn btn-success"><i class="fa-solid fa-download"></i> Xuất File Excel</a>
+                </div>
+            </div>
+            <table class="table caption-top mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Hình</th>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">Loại sản phẩm</th>
+                        <th scope="col">Đơn giá</th>
+                        <th scope="col">Số lượng</th>
+                        <th scope="col">Ngày nhập</th>
+                        <th scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.maSanPham</th>
+                            <td><div class="frameImage"><img src="~/Assets/Images/@item.hinhAnh" alt="hinh" /></div></td>
+                            <td>@item.tenSanPham</td>
+                            <td>@item.tenLoaiSanPham</td>
+                            <td>@item.giaBan</td>
+                            <td>@item.soLuong</td>
+                            <td>@item.ngayNhap</td>
+                            <td class="w-25">
+                                <a class="btn btn-warning text-white" href="/SanPham/EditSP/@item.maSanPham" role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-id="@item.maSanPham"><i class="fa-solid fa-trash-can"></i></button>
+                                <a class="btn btn-primary" href="/SanPham/DetailSP/@item.maSanPham" role="button"><i class="fa-solid fa-circle-exclamation"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("ContentSP", new { page = ViewBag.PageNumber - 1, searchString = ViewBag.SearchString })">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("ContentSP", new { page = i, searchString = ViewBag.SearchString })">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("ContentSP", new { page = ViewBag.PageNumber + 1, searchString = ViewBag.SearchString })">Next</a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa sản phẩm này không?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <form id="deleteForm" method="post" action="">
+                                @Html.AntiForgeryToken() <!-- Include anti-forgery token -->
+                                <input type="hidden" id="productId" name="id" value="" />
+                                <button type="submit" class="btn btn-danger">Xóa</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+<script>
+    // Set the delete link in the modal based on the clicked item
+    document.addEventListener('DOMContentLoaded', function () {
+        var deleteButtons = document.querySelectorAll('[data-bs-target="#confirmDeleteModal"]');
+        var productIdInput = document.getElementById('productId');
+        var deleteForm = document.getElementById('deleteForm');
+
+        deleteButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                var productId = button.getAttribute('data-id');
+                productIdInput.value = productId; // Set the product ID in the hidden input
+                deleteForm.action = '/SanPham/DeleteConfirmed'; // Set the form action
+            });
+        });
+    });
+</script>
+
+

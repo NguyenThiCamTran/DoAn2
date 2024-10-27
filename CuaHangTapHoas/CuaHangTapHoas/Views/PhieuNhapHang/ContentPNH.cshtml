@@ -1,0 +1,123 @@
+﻿@model List<CuaHangTapHoas.ViewModels.ThemPNHViewModel>
+@{
+    ViewBag.Title = "ContentPNH";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<main aria-labelledby="title" class="mx-3">
+    <div class="card shadow-sm mt-2">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-receipt text-success"></i> Phiếu nhập hàng</h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm">
+        <div class="card-body">
+            <div class="d-flex justify-content-between mb-4">
+                <a href="@Url.Action("ThemPNH", "PhieuNhapHang")" class="btn btn-primary" role="button"><i class="fa-solid fa-plus"></i>Thêm phiếu nhập</a>
+                <div class="d-flex gap-3 justify-content-end">
+                    <!-- Search form -->
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="searchString" value="@ViewBag.SearchString">
+                        <button class="btn btn-outline-success" type="submit">Tìm</button>
+                    </form>
+
+                    <!-- Export to Excel button -->
+                    <a href="@Url.Action("ExportToExcel", "PhieuNhapHang")" class="btn btn-success"><i class="fa-solid fa-download"></i> Xuất File Excel</a>
+                </div>
+            </div>
+            <table class="table caption-top mt-4">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Tên nhà cung cấp</th>
+                        <th scope="col">Ngày nhập</th>
+                        <th scope="col">Tên đăng nhập</th>
+                        <th scope="col">Tổng tiền</th>
+                        <th scope="col">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@item.maPhieuNhap</th>
+                            <td>@item.tenNhaCungCap</td>
+                            <td>@item.ngayNhap</td>
+                            <td>@item.tenDangNhap</td>
+                            <td>@item.tongTien</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "PhieuNhapHang", new { id = item.maPhieuNhap })" class="btn btn-warning text-white">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+
+                                <!-- Nút Xóa -->
+                                <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal" data-id="@item.maPhieuNhap">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+
+                                <a class="btn btn-primary" href="/PhieuNhapHang/Details/@item.maPhieuNhap" role="button"><i class="fa-solid fa-circle-exclamation"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Modal xác nhận xóa -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa phiếu nhập này không?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <form id="deleteForm" method="post" action="">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger">Xóa</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(ViewBag.PageNumber == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("ContentPNH", new { page = ViewBag.PageNumber - 1, searchString = ViewBag.SearchString })">Previous</a>
+                    </li>
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                            <a class="page-link" href="@Url.Action("ContentPNH", new { page = i, searchString = ViewBag.SearchString })">@i</a>
+                        </li>
+                    }
+                    <li class="page-item @(ViewBag.PageNumber == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("ContentPNH", new { page = ViewBag.PageNumber + 1, searchString = ViewBag.SearchString })">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</main>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Nút bấm
+            var id = button.data('id'); // Lấy id phiếu nhập
+            var form = $('#deleteForm'); // Form xóa
+
+            // Cập nhật action của form thành đường dẫn xóa tương ứng
+            form.attr('action', '/PhieuNhapHang/Delete/' + id);
+        });
+    </script>
+}

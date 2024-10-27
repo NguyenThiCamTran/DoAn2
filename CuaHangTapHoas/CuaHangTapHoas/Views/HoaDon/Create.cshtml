@@ -1,0 +1,101 @@
+﻿@model CuaHangTapHoas.ViewModels.HoaDonViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="form-horizontal">
+    <div class="card shadow-sm mt-2 mx-3">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-plus text-success"></i> Thêm hóa đơn</h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm mx-3">
+        <div class="card-body">
+            <h4 class="text-center text-success">THÔNG TIN HÓA ĐƠN</h4>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NgayLap)
+                    @Html.EditorFor(model => model.NgayLap, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    @Html.ValidationMessageFor(model => model.NgayLap, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MaTaiKhoan, "Tên Đăng Nhập")
+                    @Html.DropDownListFor(model => model.MaTaiKhoan, new SelectList(ViewBag.TaiKhoans, "maTaiKhoan", "tenDangNhap"), "Chọn tài khoản", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MaTaiKhoan, "", new { @class = "text-danger" })
+                </div>
+
+                <h4>Chọn Sản Phẩm</h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Đơn Giá</th>
+                            <th>Thành Tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Products.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.HiddenFor(m => Model.Products[i].MaSanPham)
+                                    @Html.DisplayFor(m => Model.Products[i].TenSanPham)
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(m => Model.Products[i].SoLuong, new { @class = "form-control", @onchange = "calculateTotal()" })
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(m => Model.Products[i].GiaBan)  <!-- Add hidden field for GiaBan -->
+                                    @Html.DisplayFor(m => Model.Products[i].GiaBan)
+                                </td>
+                                <td>
+                                    <span class="thanh-tien">
+                                        @(Model.Products[i].GiaBan * Model.Products[i].SoLuong)
+                                    </span>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+                <div class="form-group">
+                    @Html.Label("Tổng Tiền")
+                    <span id="totalAmount">@Model.TongTien.ToString("C")</span>
+                </div>
+
+                <input type="submit" value="Thêm Hóa Đơn" class="btn btn-primary" />
+            }
+        </div>
+    </div>
+
+            @section Scripts {
+                <script>
+                    function calculateTotal() {
+                        let total = 0;
+                        const rows = document.querySelectorAll("tbody tr");
+                        rows.forEach(row => {
+                            const quantityInput = row.querySelector("input[type='text']");
+                            const price = parseFloat(row.cells[2].innerText);
+                            const quantity = parseInt(quantityInput.value) || 0;
+                            const thanhTienSpan = row.querySelector(".thanh-tien");
+
+                            // Calculate the total for this product
+                            const thanhTien = price * quantity;
+                            thanhTienSpan.innerText = thanhTien.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+                            // Add to overall total
+                            total += thanhTien;
+                        });
+                        document.getElementById("totalAmount").innerText = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    }
+                </script>
+            }

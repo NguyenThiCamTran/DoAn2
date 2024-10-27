@@ -1,0 +1,67 @@
+﻿@model CuaHangTapHoas.ViewModels.ThemPNHViewModel
+
+@{
+    ViewBag.Title = "Chi tiết phiếu nhập";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div>
+    <div class="card shadow-sm mt-2 mx-3">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-circle-info text-success"></i> Chi tiết tài khoản</h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm mx-3">
+        <div class="card-body">
+            <h4 class="text-center text-success">THÔNG TIN CHI TIẾT TÀI KHOẢN</h4>
+
+            <div>
+                <label>Nhà cung cấp: </label>
+                <span>@Model.tenNhaCungCap</span>
+            </div>
+
+            <div>
+                <label>Ngày nhập: </label>
+                <span>@Model.ngayNhap.ToString("dd/MM/yyyy")</span>
+            </div>
+
+            <div>
+                <label>Tài khoản: </label>
+                <span>@Model.tenDangNhap</span>
+            </div>
+
+            <div>
+                <label>Tổng tiền: </label>
+                <span>@Model.tongTien</span> <!-- Hiển thị định dạng tiền tệ -->
+            </div>
+
+            <h3>Chi tiết sản phẩm</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tên sản phẩm</th>
+                        <th>Số lượng</th>
+                        <th>Giá nhập</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ChiTietPhieuNhaps)
+                    {
+                        <tr>
+                            <td>@item.tenSanPham</td>
+                            <td>@item.soLuong</td>
+                            <td>@item.giaNhap</td>
+                            <td>@(item.soLuong * item.giaNhap)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="d-flex align-items-center gap-3 mt-3">
+                @Html.ActionLink("Trở về", "ContentPNH", "", new { @class = "btn btn-primary" })
+                @Html.ActionLink("Sửa phiếu nhập", "Edit", "PhieuNhapHang", new { id = Model.maPhieuNhap }, new { @class = "btn btn-warning text-white" })
+                @*<a href="@Url.Action("EditTK", "TaiKhoan", new { id = Model.maTaiKhoan })" class="btn btn-warning text-white"></a>*@
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,213 @@
+﻿
+body {
+}
+
+.wap {
+    display: flex;
+}
+
+.menu {
+    width: 20%;
+    min-height: 100vh;
+    background-color: var(--bs-primary-subtle);
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.frameImage {
+    width: 40px;
+    height: 40px;
+}
+
+.content {
+    width: 80%;
+}
+
+.dangxuat {
+    margin-top: 80px;
+}
+
+.name {
+}
+
+.TC, .SP, .DH, .TK, .KH, .CD {
+    margin-left: 20px;
+}
+
+.bt {
+    margin-left: 30px;
+}
+
+.khung-image1 {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    align-items: center;
+    overflow: hidden;
+}
+/*.active-item {
+    background-color: var(--bs-primary) !important;
+    color: white !important;
+}
+
+    .active-item a {
+        color: white !important;
+    }
+
+.list-group-item {
+    cursor: pointer;
+}*/
+
+#menu .list-group-item {
+    transition: background-color 0.3s ease;
+    background: #cfe2ff;
+}
+
+    #menu .list-group-item a {
+        color: black;
+    }
+
+    #menu .list-group-item.active {
+        background-color: #007bff; /* Màu nền khi active */
+        color: #ffffff; /* Màu chữ khi active */
+    }
+
+        #menu .list-group-item.active a {
+            color: #ffffff; /* Màu chữ khi active */
+        }
+
+    #menu .list-group-item:hover {
+        background-color: #0056b3; /* Màu nền khi hover */
+        color: #ffffff; /* Màu chữ khi hover */
+    }
+
+        #menu .list-group-item:hover a {
+            color: white;
+        }
+
+
+.dangxuat .list-group-item:hover {
+    background-color: var(--bs-danger) !important;
+}
+
+    .dangxuat .list-group-item:hover a {
+        color: white !important;
+    }
+
+.user-info {
+    /*background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+    text-align: center;
+}
+
+/*.user-info h3 {
+        color: #333;
+        margin: 0;
+        font-size: 24px;
+    }*/
+
+/* Graph */
+
+.graph {
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    gap: 0 30px;
+}
+
+.graph-item {
+    border-radius: 6px;
+    padding: 10px 20px;
+    width: 33%;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+    .graph-item:nth-child(1) {
+        background-color: rgb(97, 102, 245);
+    }
+
+    .graph-item:nth-child(2) {
+        background-color: rgb(6, 215, 157);
+    }
+    /*.graph-item:nth-child(3) {
+  background-color: rgb(128, 127, 255);
+}*/
+    .graph-item:nth-child(3) {
+        background-color: rgb(255, 90, 130);
+    }
+
+    .graph-item .info-quantity {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+        .graph-item .info-quantity i {
+            font-size: 35px;
+            color: white;
+            font-weight: bold;
+        }
+
+.graph-item-name {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+}
+
+.graph-item-quantity {
+    font-size: 35px;
+    font-weight: 600;
+    color: white;
+    margin-top: 10px;
+}
+
+.graph-item-progress {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+    .graph-item-progress span {
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .graph-item-progress .process {
+        color: #001858;
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        border-radius: 100rem;
+        background-color: white;
+        width: max-content;
+        font-weight: bold;
+        gap: 0 5px;
+    }
+
+    .graph-item-progress .update-today {
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 0 3px;
+        user-select: none;
+        font-weight: 500;
+    }
+
+.incomeChartBar {
+    width: 450px;
+}
+
+.pieChart {
+    width: 450px;
+}

@@ -1,0 +1,123 @@
+﻿@model CuaHangTapHoas.ViewModels.ThemNVViewModel
+
+@{
+    ViewBag.Title = "DeleteNV";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div>
+    <div class="card shadow-sm mt-2 mx-3">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-trash-can text-success"></i> Xóa nhân viên</h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm mx-3">
+        <div class="card-body">
+            <h3>Bạn có chắc chắn muốn xóa nhân viên này không?</h3>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.maNhanVien)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.maNhanVien)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.tenNhanVien)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.tenNhanVien)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.tenDangNhap)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.tenDangNhap)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.matKhau)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.matKhau)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.soDienThoai)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.soDienThoai)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.diaChi)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.diaChi)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.email)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.chucVu)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.chucVu)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.luong)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.luong)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ngayTao)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ngayTao)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.loaiTaiKhoan)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.loaiTaiKhoan)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm("DeleteConfirmed", "NhanVien", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.maNhanVien)
+                <div class="d-flex align-items-center mt-3 gap-3">
+                    <div>
+                        @Html.ActionLink("Trở về", "ContentNV", "", new { @class = "btn btn-primary" })
+                    </div>
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Xóa nhân viên" class="btn btn-danger" /> <br />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

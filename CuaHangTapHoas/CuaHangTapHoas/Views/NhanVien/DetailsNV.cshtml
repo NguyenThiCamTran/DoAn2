@@ -1,0 +1,115 @@
+﻿@model CuaHangTapHoas.ViewModels.ThemNVViewModel
+
+@{
+    ViewBag.Title = "DetailsNV";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div>
+    <div class="card shadow-sm mt-2 mx-3">
+        <div class="card-body">
+            <h4><i class="fa-solid fa-circle-info text-success"></i> Chi tiết nhà cung cấp</h4>
+        </div>
+    </div>
+    <div class="card mt-4 shadow-sm mx-3">
+        <div class="card-body">
+            <h4 class="text-center text-success">THÔNG TIN CHI TIẾT NHÀ CUNG CẤP</h4>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.maNhanVien)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.maNhanVien)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.tenNhanVien)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.tenNhanVien)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.tenDangNhap)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.tenDangNhap)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.matKhau)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.matKhau)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.soDienThoai)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.soDienThoai)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.diaChi)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.diaChi)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.email)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.email)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.chucVu)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.chucVu)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.luong)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.luong)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ngayTao)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ngayTao)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.loaiTaiKhoan)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.loaiTaiKhoan)
+                </dd>
+
+            </dl>
+            <div class="d-flex align-items-center gap-3 mt-3">
+
+                @Html.ActionLink("Trở về", "ContentNV", "", new { @class = "btn btn-primary" })
+                @Html.ActionLink("Sửa nhân viên", "EditNV", "", new { id = Model.maNhanVien }, new { @class = "btn btn-warning text-white" })
+            </div>
+            </div>
+        </div>
+</div>
+        
