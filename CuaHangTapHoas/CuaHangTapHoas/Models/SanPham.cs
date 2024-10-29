@@ -29,7 +29,6 @@ namespace CuaHangTapHoas.Models
         [Column(TypeName = "date")]
         public DateTime? ngayNhap { get; set; }
 
-        [Column(TypeName = "text")]
         public string moTa { get; set; }
 
         public string hinhAnh { get; set; }

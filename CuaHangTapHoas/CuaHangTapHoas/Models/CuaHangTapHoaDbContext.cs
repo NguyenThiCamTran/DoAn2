@@ -78,10 +78,6 @@ namespace CuaHangTapHoas.Models
                 .Property(e => e.giaBan)
                 .HasPrecision(10, 2);
 
-            modelBuilder.Entity<SanPham>()
-                .Property(e => e.moTa)
-                .IsUnicode(false);
-
             modelBuilder.Entity<TaiKhoan>()
                 .Property(e => e.tenDangNhap)
                 .IsUnicode(false);
