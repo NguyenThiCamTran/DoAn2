@@ -29,14 +29,15 @@
                     <div class="graph-item-progress">
                         <span>Trong Tháng: </span>
                         <span class="value">
-                            @Html.FormatValue(Model.TotalIncomeInMonth, "{0:###,###.##}")
+                            @Model.TotalIncomeInMonth
                         </span>
                     </div>
                 </div>
                 <div class="graph-item">
-                    <h3 class="graph-item-name">Số lượng sản phẩm</h3>
+                    <h3 class="graph-item-name">Số Lượng Sản Phẩm</h3>
                     <div class="info-quantity">
-                        <i class="fa-solid fa-users-rays"></i>
+                        @*<i class="fa-solid fa-users-rays"></i>*@
+                        <i class="fa-solid fa-boxes-stacked"></i>
                         <div class="graph-item-quantity">
                             @Model.TotalProduct
                         </div>
@@ -69,17 +70,17 @@
                 <div class="p-4 rounded shadow-sm incomeChartBar">
                     <canvas id="incomeChartBar"></canvas>
                 </div>
-                <div class="p-4 rounded shadow-sm pieChart">
-                    <canvas id="pieChart"></canvas>
+                <div class="p-4 rounded shadow-sm loaiSanPhamData">
+                    <canvas id="loaiSanPhamData"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
 </main>
-
-@*@section scripts{
+@section scripts{
     <script>
+        // Bar chart for income
         var ctx = document.getElementById('incomeChartBar').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
@@ -114,42 +115,41 @@
             }
         });
 
-        var ctx1 = document.getElementById('pieChart').getContext('2d');
-        var chartData = {
-            labels: @Html.Raw(Json.Encode(Model.Charts.ElementAt(1).Labels)),
-            datasets: [{
-                data: @Html.Raw(Json.Encode(Model.Charts.ElementAt(1).Data)),
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                    'rgba(153, 102, 255, 0.6)',
-                    'rgba(255, 159, 64, 0.6)',
-                    'rgba(199, 199, 199, 0.6)',
-                    'rgba(83, 102, 255, 0.6)',
-                    'rgba(255, 99, 71, 0.6)',
-                    'rgba(144, 238, 144, 0.6)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(199, 199, 199, 1)',
-                    'rgba(83, 102, 255, 1)',
-                    'rgba(255, 99, 71, 1)',
-                    'rgba(144, 238, 144, 1)'
-                ],
-                borderWidth: 1
-            }]
-        };
-
+        // Pie chart for product categories
+        var ctx1 = document.getElementById('loaiSanPhamData').getContext('2d');
         var pieChart = new Chart(ctx1, {
             type: 'pie',
-            data: chartData,
+            data: {
+                labels: @Html.Raw(Json.Encode(Model.Charts.ElementAt(1).Labels)),
+                datasets: [{
+                    data: @Html.Raw(Json.Encode(Model.Charts.ElementAt(1).Data)),
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)',
+                        'rgba(199, 199, 199, 0.6)',
+                        'rgba(83, 102, 255, 0.6)',
+                        'rgba(255, 99, 71, 0.6)',
+                        'rgba(144, 238, 144, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(199, 199, 199, 1)',
+                        'rgba(83, 102, 255, 1)',
+                        'rgba(255, 99, 71, 1)',
+                        'rgba(144, 238, 144, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
             options: {
                 responsive: true,
                 plugins: {
@@ -158,14 +158,15 @@
                     },
                     title: {
                         display: true,
-                        text: 'Thống kê sản phẩm / Chủ đề',
+                        text: 'Số lượng sản phẩm theo loại',
                         font: {
                             size: 20
                         }
                     }
                 }
-            },
+            }
         });
     </script>
-}*@
+}
+
 

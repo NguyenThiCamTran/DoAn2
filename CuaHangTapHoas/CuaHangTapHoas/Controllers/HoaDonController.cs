@@ -1,12 +1,16 @@
 ﻿using ClosedXML.Excel;
 using CuaHangTapHoas.Models;
 using CuaHangTapHoas.ViewModels;
+using DocumentFormat.OpenXml.Wordprocessing;
+using iText.Kernel.Pdf;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PdfWriter = iText.Kernel.Pdf.PdfWriter;
 
 namespace CuaHangTapHoas.Controllers
 {
@@ -304,6 +308,8 @@ namespace CuaHangTapHoas.Controllers
 
             return View("PrintInvoice", hoaDon); // Use a separate "PrintInvoice" view for printing
         }
+
+
 
         public ActionResult ExportToExcel()
         {

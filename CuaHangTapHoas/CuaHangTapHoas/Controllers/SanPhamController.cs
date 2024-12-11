@@ -46,7 +46,8 @@ namespace CuaHangTapHoas.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                sanPhams = sanPhams.Where(sp => sp.tenSanPham.Contains(searchString));
+                sanPhams = sanPhams.Where(sp => sp.tenSanPham.Contains(searchString) || sp.tenLoaiSanPham.Contains(searchString));
+
             }
 
             sanPhams = sanPhams.OrderByDescending(sp => sp.maSanPham);

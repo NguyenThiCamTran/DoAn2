@@ -25,13 +25,15 @@ namespace CuaHangTapHoas.Controllers
         }
         private double getTotalIncomeInMonth(int month)
         {
-            double res = (double)(from hd in kn.HoaDons
-                                  join ct in kn.ChiTietHoaDons on hd.maHoaDon equals ct.maHoaDon
-                                  join sp in kn.SanPhams on ct.maSanPham equals sp.maSanPham
-                                  where hd.TrangThai.Trim() == "Đã thanh toán" && hd.ngayLap.Month == month
-                                  select hd.tongTien).Sum();
-            return res;
+            var res = from hd in kn.HoaDons
+                      join ct in kn.ChiTietHoaDons on hd.maHoaDon equals ct.maHoaDon
+                      join sp in kn.SanPhams on ct.maSanPham equals sp.maSanPham
+                      where hd.TrangThai.Trim() == "Đã thanh toán" && hd.ngayLap.Month == month
+                      select (double?)hd.tongTien;
+
+            return res.Sum() ?? 0;
         }
+
         private int getTotalProduct()
         {
             int res = kn.SanPhams.Count();
@@ -40,7 +42,7 @@ namespace CuaHangTapHoas.Controllers
 
         private int getTotalProductInMonth(int month)
         {
-            return kn.TaiKhoans.Where(ac => ac.ngayTao.Value.Month == month).Count();
+            return kn.SanPhams.Where(ac => ac.ngayNhap.Value.Month == month).Count();
         }
         private int getTotalOrder()
         {
@@ -61,17 +63,48 @@ namespace CuaHangTapHoas.Controllers
             viewModel.TotalProductInMonth = getTotalProductInMonth(DateTime.Now.Month);
             viewModel.TotalOrder = getTotalOrder();
             viewModel.TotalOrderInMonth = getTotalOrderInMonth(DateTime.Now.Month);
-            //var incomeChartBar = (from hd in kn.HoaDons
-            //                      join ct in kn.ChiTietHoaDons on hd.maHoaDon equals ct.maHoaDon
-            //                      join sp in kn.SanPhams on ct.maSanPham equals sp.maSanPham
-            //                      where hd.TrangThai.Trim() == "Đã thanh toán"
-            //                      group new { ct, sp } by hd.ngayLap.Year into g
-            //                      select new
-            //                      {
-            //                          Year = g.Key,
-            //                          TotalAmount = g.Sum(x => x.ct.giaBan )
-            //                      }).ToList();
-            
+
+            var incomeChartBar = (from hd in kn.HoaDons
+                                  join ct in kn.ChiTietHoaDons on hd.maHoaDon equals ct.maHoaDon
+                                  join sp in kn.SanPhams on ct.maSanPham equals sp.maSanPham
+                                  where hd.TrangThai.Trim() == "Đã thanh toán"
+                                  group new { ct, sp, hd } by hd.ngayLap.Year into g
+                                  select new
+                                  {
+                                      Year = g.Key,
+                                      TotalAmount = g.Sum(x => x.hd.tongTien)
+                                  }).ToList();
+
+            var loaiSanPhamData = (from lsp in kn.LoaiSanPhams
+                                   join sp in kn.SanPhams on lsp.maLoaiSanPham equals sp.maLoaiSanPham
+                                   group sp by lsp.tenLoaiSanPham into g
+                                   select new
+                                   {
+                                       TenLoaiSanPham = g.Key,
+                                       TongSoLuong = g.Sum(sp => sp.soLuong) // Assuming 'soLuong' is a quantity property of SanPham
+                                   }).ToList();
+
+            // Initialize Charts with two ChartViewModel objects
+            viewModel.Charts = new List<ChartViewModel>
+    {
+        new ChartViewModel { Data = new List<double>(), Labels = new List<string>() },
+        new ChartViewModel { Data = new List<double>(), Labels = new List<string>() }
+    };
+
+            // Assign income chart data
+            foreach (var item in incomeChartBar)
+            {
+                viewModel.Charts[0].Labels.Add(item.Year.ToString());
+                viewModel.Charts[0].Data.Add((double)item.TotalAmount);
+            }
+
+            // Assign loaiSanPhamData chart data
+            foreach (var item in loaiSanPhamData)
+            {
+                viewModel.Charts[1].Labels.Add(item.TenLoaiSanPham.ToString());
+                viewModel.Charts[1].Data.Add((double)item.TongSoLuong);
+            }
+
             return View(viewModel);
         }
     }
