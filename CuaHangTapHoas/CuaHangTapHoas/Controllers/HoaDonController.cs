@@ -53,7 +53,7 @@ namespace CuaHangTapHoas.Controllers
             // Search if there is a search string
             if (!string.IsNullOrEmpty(searchString))
             {
-                hoaDons = hoaDons.Where(t => t.tenDangNhap.Contains(searchString));
+                hoaDons = hoaDons.Where(t => t.tenDangNhap.Contains(searchString) || t.TrangThai.Contains(searchString));
             }
 
             // Count total items
@@ -101,7 +101,7 @@ namespace CuaHangTapHoas.Controllers
                 // Create a new HoaDon object
                 var hoaDon = new HoaDon
                 {
-                    ngayLap = model.NgayLap,
+                    ngayLap = DateTime.Now,
                     maTaiKhoan = model.MaTaiKhoan,
                     TrangThai = "Chưa thanh toán", // Default status
                     tongTien = model.Products.Sum(p => p.SoLuong > 0 ? p.SoLuong * p.GiaBan : 0) // Calculate total price

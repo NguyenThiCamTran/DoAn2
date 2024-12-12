@@ -10,6 +10,7 @@ namespace CuaHangTapHoas.ViewModels
     public class HoaDonViewModel
     {
         public int maHoaDon {  get; set; }
+        [DisplayName("Ngày lập")]
         public DateTime NgayLap { get; set; }
         public string tenDangNhap { get; set; }
         public int? MaTaiKhoan { get; set; }

@@ -9,12 +9,12 @@
 <div>
     <div class="card shadow-sm mt-2 mx-3">
         <div class="card-body">
-            <h4><i class="fa-solid fa-circle-info text-success"></i> Chi tiết hóa đơn</h4>
+            <h4><i class="fa-solid fa-circle-info text-success"></i> Chi tiết loại sản phẩm</h4>
         </div>
     </div>
     <div class="card mt-4 shadow-sm mx-3">
         <div class="card-body">
-            <h4 class="text-center text-success">THÔNG TIN CHI TIẾT HÓA ĐƠN</h4>
+            <h4 class="text-center text-success">THÔNG TIN CHI TIẾT LOẠI SẢN PHẨM</h4>
             <dl class="dl-horizontal">
                 <dt>
                     @Html.DisplayNameFor(model => model.tenLoaiSanPham)
@@ -25,9 +25,7 @@
                 </dd>
 
             </dl>
-            <p>
-                @Html.ActionLink("Trở về", "ContentLoaiSP", "", new { @class = "btn btn-primary" })
-            </p>
+           
             <div class="d-flex align-items-center gap-3 mt-3">
 
                 @Html.ActionLink("Trở về", "ContentLoaiSP", "", new { @class = "btn btn-primary" })

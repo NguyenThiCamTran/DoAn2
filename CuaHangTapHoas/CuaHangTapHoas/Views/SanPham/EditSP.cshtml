@@ -9,27 +9,25 @@
 <div class="form-horizontal">
     <div class="card shadow-sm mt-2 mx-3">
         <div class="card-body">
-            <h4 class="KH"><i class="fa-solid fa-pen-to-square text-success"></i> Sửa phiếu nhập</h4>
+            <h4 class="KH"><i class="fa-solid fa-pen-to-square text-success"></i> Sửa sản phẩm</h4>
         </div>
     </div>
     <div class="card mt-4 shadow-sm mx-3">
         <div class="card-body">
-            <h4 class="text-center text-primary">THÔNG TIN PHIẾU NHẬP</h4>
+            <h4 class="text-center text-primary">THÔNG TIN SẢN PHẨM</h4>
             @using (Html.BeginForm("EditSP", "SanPham", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
-                    <h4>ThemSPViewModel</h4>
-                    <hr />
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    <div class="form-group">
+                    @*<div class="form-group">
                         @Html.LabelFor(model => model.maSanPham, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.maSanPham, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.maSanPham, "", new { @class = "text-danger" })
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.tenSanPham, htmlAttributes: new { @class = "control-label col-md-2" })
